@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/06/29 15:21:24 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:22:23 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #endif
