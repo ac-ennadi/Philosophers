@@ -6,11 +6,13 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/25 14:33:13 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/25 15:00:10 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+
 
 int	ft_isdigit(int c)
 {
@@ -23,7 +25,7 @@ int ft_is_all_digit(char *str)
     int i;
 
     i = 0;
-    if(!str[i])
+    if(str[i])
         return (0);
     if (str[0] == '+')
         i++;
@@ -73,7 +75,7 @@ int puterror(int errnum)
         printf("Error: \n");
     return 0;
 }
-int philo_parcer(int ac, char **av)
+int philo_parcer(int ac, char **av, t_configuration *data)
 {
     int i;
     
@@ -84,19 +86,30 @@ int philo_parcer(int ac, char **av)
     while (i < ac)
     {
         if (!ft_is_all_digit(av[i]))
-            return (puterror(1));
+        return (puterror(1));
         i++;
     }
+    data->number_of_philosophers = ft_atoi(av[1]);
+    data->time_to_die = ft_atoi(av[2]);
+    data->time_to_eat = ft_atoi(av[3]);
+    data->time_to_sleep = ft_atoi(av[4]);
+    if (ac == 6)
+        data->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
+    else
+        data->number_of_times_each_philosopher_must_eat = -1;
+    // write(1, "the sig\n", 8);
     return 1;
 }
 
 int main(int ac, char **av)
 {
     int status;
+    t_configuration data;
     
-    status = philo_parcer(ac ,av);
+    status = philo_parcer(ac ,av, &data);
     if (!status)
         return 0;
-    printf("Test skip Parcing!\n");
+    printf("Test skip Parcing!, and this is the result of the data\n");
+    printf("this is the result of struct %d\n%d\n%d\n%d\n%d\n", data.number_of_philosophers, data.time_to_die, data.time_to_eat, data.time_to_sleep, data.number_of_times_each_philosopher_must_eat);
     return 0;
 }
