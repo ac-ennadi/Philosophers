@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/26 16:51:44 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:58:45 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void *rroo(void *arg)
+void *ft_routine(void *arg)
 {
-    printf("hello");
+    printf("a philo\n");
     return NULL;
 }
 
@@ -44,7 +44,7 @@ void philo_init(t_configuration *data)
         philos[i].config = data;
         philos[i].left_fork = &data->forks[i];
 	    philos[i].right_fork = &data->forks[(i + 1) % data->number_of_philosophers];
-	    pthread_create(&philos[i].thread, NULL, rroo("hello"), &philos[i]);
+	    pthread_create(&philos[i].thread, NULL, ft_routine, "");
         i++;
     }
 }
