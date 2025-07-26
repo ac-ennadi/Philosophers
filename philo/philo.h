@@ -6,27 +6,33 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/25 15:00:13 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:40:33 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/time.h>
-#include <pthread.h>
-#include <stdlib.h>
-#include <limits.h>
+# include <limits.h>
+# include <pthread.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_configuration
 {
-    int number_of_philosophers;
-    int time_to_die;
-    int time_to_eat;
-    int time_to_sleep;
-    int number_of_times_each_philosopher_must_eat;
-} t_configuration;
+	int	number_of_philosophers;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	number_of_times_each_philosopher_must_eat;
+}		t_configuration;
+
+int		puterror(int errnum);
+int		ft_is_all_digit(char *str);
+int		philo_parcer(int ac, char **av, t_configuration *data);
+int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
 
 #endif
