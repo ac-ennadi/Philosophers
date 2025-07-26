@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/26 17:04:03 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/26 17:37:39 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ void philo_init(t_configuration *data)
         philos[i].left_fork = &data->forks[i];
 	    philos[i].right_fork = &data->forks[(i + 1) % data->number_of_philosophers];
 	    pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
+        i++;
+    }
+    i = 0;
+    while(i < data->number_of_philosophers)
+    {
+        pthread_join(philos[i].thread, NULL);
         i++;
     }
 }

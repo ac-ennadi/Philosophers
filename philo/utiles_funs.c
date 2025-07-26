@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:58 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/26 15:41:49 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/26 17:39:33 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void t_clean(void *arg)
 {
-	free(arg);
-	exit(0);
+	if (arg)
+		free(arg);
+	exit(1);
 }
 
 int	ft_isdigit(int c)
