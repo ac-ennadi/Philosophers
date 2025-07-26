@@ -6,11 +6,17 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:58 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/26 13:39:02 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:41:49 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void t_clean(void *arg)
+{
+	free(arg);
+	exit(0);
+}
 
 int	ft_isdigit(int c)
 {

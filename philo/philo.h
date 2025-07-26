@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/26 13:40:33 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:42:09 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,23 @@ typedef struct s_configuration
 	int	number_of_times_each_philosopher_must_eat;
 }		t_configuration;
 
+typedef struct s_philos
+{
+	int             id;
+    pthread_t       thread;
+    pthread_mutex_t *left_fork;
+    pthread_mutex_t *right_fork;
+    long long       last_meal;
+    int             eat_count;
+    struct s_configuration *config;
+} t_phios;
+
+
 int		puterror(int errnum);
 int		ft_is_all_digit(char *str);
 int		philo_parcer(int ac, char **av, t_configuration *data);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
+void t_clean(void *arg);
 
 #endif
