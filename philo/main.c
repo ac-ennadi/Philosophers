@@ -6,16 +6,39 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/26 17:37:39 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:15:25 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void    stdout_lock(t_configuration *data, t_phios *philo, char *str)
+{
+    pthread_mutex_lock(&data->stdout);
+    printf("%d %s\n", philo->id, str);
+    pthread_mutex_unlock(&data->stdout);
+}
+
 void *philo_routine(void *arg)
 {
     t_phios *philo = (t_phios *)arg;
-    printf("Philosopher %d is starting.\n", philo->id);
+    //start with taking a forks
+    pthread_mutex_lock(philo->left_fork);
+    pthread_mutex_lock(philo->right_fork);
+    
+    stdout_lock(philo->config, philo, "has taken a fork");
+    //for eating
+    stdout_lock(philo->config, philo, "is Eating");
+     usleep(philo->config->time_to_eat * 1000);
+    //for sleeping
+    stdout_lock(philo->config, philo, "is sleeping");
+     usleep( philo->config->time_to_sleep * 1000);
+    //for thinking
+    stdout_lock(philo->config, philo, "is thinking");
+    //like died
+    stdout_lock(philo->config, philo, "is Droping");
+    pthread_mutex_unlock(philo->right_fork);
+    pthread_mutex_unlock(philo->left_fork);
     return NULL;
 }
 
@@ -36,6 +59,7 @@ void philo_init(t_configuration *data)
         pthread_mutex_init(&data->forks[i], NULL);
         i++;
     }
+    pthread_mutex_init(&data->stdout, NULL);
     i = 0;
     while (i < data->number_of_philosophers) {
         philos[i].id = i;
