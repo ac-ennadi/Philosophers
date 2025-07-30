@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/30 10:56:49 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:36:43 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ typedef struct s_philos
 int							puterror(int errnum);
 int							ft_is_all_digit(char *str);
 int							philo_parcer(int ac, char **av,
-							 	t_configuration *data);
+								t_configuration *data);
 int							ft_atoi(const char *str);
 int							ft_isdigit(int c);
 void						t_clean(void *arg);
-
+void						stdout_lock(t_configuration *data, t_phios *philo,
+								char *str);
+long						my_get_time(void);
 #endif
