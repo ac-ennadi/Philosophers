@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void t_clean(void *arg)
+void	t_clean(void *arg)
 {
 	if (arg)
 		free(arg);

@@ -43,7 +43,7 @@ int	ft_is_all_digit(char *str)
 
 int	philo_parcer(int ac, char **av, t_configuration *data)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	// 5 or 6 args this is optional
