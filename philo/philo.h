@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/30 11:36:43 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:54:24 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_configuration
 	int						time_to_eat;
 	int						time_to_sleep;
 	int						number_of_times_each_philosopher_must_eat;
+	long long				start_time;
 	pthread_mutex_t			stdout;
 	pthread_mutex_t			*forks;
 }							t_configuration;
@@ -51,5 +52,5 @@ int							ft_isdigit(int c);
 void						t_clean(void *arg);
 void						stdout_lock(t_configuration *data, t_phios *philo,
 								char *str);
-long						my_get_time(void);
+long long						my_get_time(void);
 #endif

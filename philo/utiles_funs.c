@@ -6,26 +6,25 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:58 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/03 17:21:10 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:55:38 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long    my_get_time(void)
+long long   my_get_time(void)
 {
     struct timeval time;
     gettimeofday(&time, NULL);
-    return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+    return ((time.tv_sec * 1000LL) + (time.tv_usec / 1000));
 }
 
 void	stdout_lock(t_configuration *data, t_phios *philo, char *str)
 {
-	long	time;
+	long long	time;
 	pthread_mutex_lock(&data->stdout);
-	time = my_get_time();
-	usleep(10000);
-	printf("%ld %d %s\n", my_get_time() - time, philo->id + 1, str);
+	time = my_get_time() - data->start_time;
+	printf("%lld %d %s\n", time, philo->id + 1, str);
 	pthread_mutex_unlock(&data->stdout);
 }
 void	t_clean(void *arg)
