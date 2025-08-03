@@ -6,38 +6,40 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/30 11:56:10 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:22:05 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdio.h>
 
 void	*philo_routine(void *arg)
 {
 	t_phios	*philo;
 
 	philo = (t_phios *)arg;
-	// start with taking a forks
-	pthread_mutex_lock(philo->left_fork);
-	pthread_mutex_lock(philo->right_fork);
-	stdout_lock(philo->config, philo, "has taken a fork");
-    
-	// for eating
-	stdout_lock(philo->config, philo, "is Eating");
-    philo->last_meal = my_get_time();
-	usleep(philo->config->time_to_eat * 1000);
-    philo->eat_count++;
-    
-	// for sleeping
-	stdout_lock(philo->config, philo, "is sleeping");
-	usleep(philo->config->time_to_sleep * 1000);
-    
-	// for thinking
-	stdout_lock(philo->config, philo, "is thinking");
-	// like died
-	stdout_lock(philo->config, philo, "is died");
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
+	while (1)
+	{
+		// start with taking a forks
+		pthread_mutex_lock(philo->left_fork);
+		pthread_mutex_lock(philo->right_fork);
+		stdout_lock(philo->config, philo, "has taken a fork");
+		
+		// for eating
+		stdout_lock(philo->config, philo, "is Eating");
+    	philo->last_meal = my_get_time();
+		usleep(philo->config->time_to_eat * 1000);
+    	philo->eat_count++;
+		
+		// for sleeping
+		stdout_lock(philo->config, philo, "is sleeping");
+		usleep(philo->config->time_to_sleep * 1000);
+		
+		// for thinking
+		stdout_lock(philo->config, philo, "is thinking");
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+	}
 	return (NULL);
 }
 
