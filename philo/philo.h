@@ -52,5 +52,5 @@ int							ft_isdigit(int c);
 void						t_clean(void *arg);
 void						stdout_lock(t_configuration *data, t_phios *philo,
 								char *str);
-long long						my_get_time(void);
+long long					my_get_time(void);
 #endif

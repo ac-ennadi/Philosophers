@@ -23,19 +23,16 @@ void	*philo_routine(void *arg)
 		pthread_mutex_lock(philo->left_fork);
 		pthread_mutex_lock(philo->right_fork);
 		stdout_lock(philo->config, philo, "has taken a fork");
-		
 		// for eating
 		stdout_lock(philo->config, philo, "is Eating");
-    	philo->last_meal = my_get_time();
+		philo->last_meal = my_get_time();
 		usleep(philo->config->time_to_eat * 1000);
-    	philo->eat_count++;
-		
+		philo->eat_count++;
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 		// for sleeping
 		stdout_lock(philo->config, philo, "is sleeping");
 		usleep(philo->config->time_to_sleep * 1000);
-		
 		// for thinking
 		stdout_lock(philo->config, philo, "is thinking");
 	}

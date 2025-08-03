@@ -12,16 +12,18 @@
 
 #include "philo.h"
 
-long long   my_get_time(void)
+long long	my_get_time(void)
 {
-    struct timeval time;
-    gettimeofday(&time, NULL);
-    return ((time.tv_sec * 1000LL) + (time.tv_usec / 1000));
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000LL) + (time.tv_usec / 1000));
 }
 
 void	stdout_lock(t_configuration *data, t_phios *philo, char *str)
 {
 	long long	time;
+
 	pthread_mutex_lock(&data->stdout);
 	time = my_get_time() - data->start_time;
 	printf("%lld %d %s\n", time, philo->id + 1, str);
