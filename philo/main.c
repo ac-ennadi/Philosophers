@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/03 20:32:44 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:45:40 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ void	*philo_routine(void *arg)
 		usleep(philo->config->time_to_sleep * 1000);
 		// for thinking
 		stdout_lock(philo->config, philo, "is thinking");
+		if ((my_get_time() - philo->last_meal) >= philo->config->time_to_die)
+			break;
 	}
+	philo->config->is_died = 0;
+	stdout_lock(philo->config, philo, "died");
 	return (NULL);
 }
 
@@ -83,6 +87,7 @@ int	main(int ac, char **av)
 	int				status;
 	t_configuration	data;
 
+	data.is_died = 1;
 	status = philo_parcer(ac, av, &data);
 	if (!status)
 		return (0);
