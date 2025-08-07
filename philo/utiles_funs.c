@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:58 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/04 18:52:26 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:38:53 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,10 @@ void	stdout_lock(t_configuration *data, t_phios *philo, char *str)
 {
 	long long	time;
 	
-	if ((my_get_time() - philo->last_meal) >= data->time_to_die)
-	{
-		pthread_mutex_lock(&data->stdout);
-		time = my_get_time() - data->start_time;
-		printf("%lld %d %s\n", time, philo->id + 1, str);
-		data->is_died = 1;
-		pthread_mutex_unlock(&data->stdout);
-	}
+	pthread_mutex_lock(&data->stdout);
+	time = my_get_time() - data->start_time;
+	printf("%lld %d %s\n", time, philo->id + 1, str);
+	pthread_mutex_unlock(&data->stdout);
 }
 void	t_clean(void *arg)
 {
