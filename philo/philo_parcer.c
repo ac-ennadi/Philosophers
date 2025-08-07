@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:22 by acennadi          #+#    #+#             */
-/*   Updated: 2025/07/26 17:43:48 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:48:19 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	philo_parcer(int ac, char **av, t_configuration *data)
 	int	i;
 
 	i = 1;
-	// 5 or 6 args this is optional
 	if (ac != 6 && ac != 5)
 		return (puterror(0));
 	while (i < ac)
@@ -59,10 +58,11 @@ int	philo_parcer(int ac, char **av, t_configuration *data)
 	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
+	if (data->number_of_philosophers >= 200)
+		return (puterror(2));
 	if (ac == 6)
 		data->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
 	else
 		data->number_of_times_each_philosopher_must_eat = -1;
-	// write(1, "the sig\n", 8);
 	return (1);
 }
