@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/07 16:47:17 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:27:55 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	*died_checker(t_phios *philo)
 {
-	long long now;
-	
-	while (1) {
+	long long	now;
+
+	while (1)
+	{
 		now = my_get_time();
 		pthread_mutex_lock(&philo->config->meal_lock);
 		if ((now - philo->last_meal) >= philo->config->time_to_die)
@@ -25,12 +26,12 @@ void	*died_checker(t_phios *philo)
 			philo->config->is_died = 0;
 			stdout_lock(philo->config, philo, "is died");
 			pthread_mutex_unlock(&philo->config->died_lock);
-			break;
+			break ;
 		}
 		usleep(1000);
 		pthread_mutex_unlock(&philo->config->meal_lock);
 	}
-	return NULL;
+	return (NULL);
 }
 
 void	*philo_routine(void *arg)
@@ -66,10 +67,10 @@ void	philo_init(t_configuration *data)
 {
 	int		i;
 	t_phios	*philos;
-	
+
 	philos = malloc(sizeof(t_phios) * data->number_of_philosophers);
 	data->forks = malloc(sizeof(pthread_mutex_t)
-	* data->number_of_philosophers);
+			* data->number_of_philosophers);
 	if (!data->forks || !philos)
 	{
 		t_clean(data->forks);
@@ -93,18 +94,18 @@ void	philo_init(t_configuration *data)
 		philos[i].left_fork = &data->forks[i];
 		philos[i].right_fork = &data->forks[(i + 1)
 			% data->number_of_philosophers];
-			pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
-			i++;
-		}
-		i = 0;
-		while (i < data->number_of_philosophers)
-		{
-			pthread_join(philos[i].thread, NULL);
-			i++;
-		}
+		pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
+		i++;
 	}
-	int	main(int ac, char **av)
+	i = 0;
+	while (i < data->number_of_philosophers)
 	{
+		pthread_join(philos[i].thread, NULL);
+		i++;
+	}
+}
+int	main(int ac, char **av)
+{
 	int				status;
 	t_configuration	data;
 

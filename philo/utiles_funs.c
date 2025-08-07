@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:58 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/07 15:38:53 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:32:35 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long long	my_get_time(void)
 void	stdout_lock(t_configuration *data, t_phios *philo, char *str)
 {
 	long long	time;
-	
+
 	pthread_mutex_lock(&data->stdout);
 	time = my_get_time() - data->start_time;
 	printf("%lld %d %s\n", time, philo->id + 1, str);
@@ -45,9 +45,9 @@ int	ft_isdigit(int c)
 
 int	ft_atoi(const char *str)
 {
-	int	res;
-	int	sign;
-	int	i;
+	long	res;
+	int		sign;
+	int		i;
 
 	i = 0;
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
