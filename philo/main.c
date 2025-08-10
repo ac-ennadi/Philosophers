@@ -6,11 +6,23 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/10 18:27:58 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:06:51 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	join_it(t_phios *data)
+{
+	int i;
+	
+	i = 0;
+	while (i < data->config->number_of_philosophers)
+	{
+		pthread_join(data[i].thread, NULL);
+		i++;
+	}
+}
 
 void	*philo_routine(void *arg)
 {
@@ -24,12 +36,12 @@ void	*philo_routine(void *arg)
 		pthread_mutex_lock(philo->right_fork);
 		stdout_lock(philo->config, philo, "has taken a fork");
 		// for eating
-		pthread_mutex_lock(&philo->config->meal_lock);
 		stdout_lock(philo->config, philo, "is Eating");
+		pthread_mutex_lock(&philo->config->meal_lock);
 		philo->last_meal = my_get_time();
-		usleep(philo->config->time_to_eat * 1000);
 		philo->eat_count++;
 		pthread_mutex_unlock(&philo->config->meal_lock);
+		usleep(philo->config->time_to_eat * 1000);
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 		// for sleeping
@@ -38,6 +50,11 @@ void	*philo_routine(void *arg)
 		// for thinking
 		stdout_lock(philo->config, philo, "is thinking");
 		usleep(1000);
+		if (philo->config->number_of_times_each_philosopher_must_eat <= philo->eat_count)
+		{
+			stdout_lock(philo->config, philo, "is died");
+			exit(0);
+		}
 	}
 	return (NULL);
 }
@@ -49,10 +66,10 @@ void	philo_init(t_configuration *data)
 
 	philos = malloc(sizeof(t_phios) * data->number_of_philosophers);
 	data->forks = malloc(sizeof(pthread_mutex_t)
-			* data->number_of_philosophers);
+	* data->number_of_philosophers);
+	philos->eat_count = 1;
 	if (!data->forks || !philos)
 	{
-		t_clean(data->forks);
 		t_clean(philos);
 	}
 	i = 0;
@@ -75,12 +92,7 @@ void	philo_init(t_configuration *data)
 			pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
 			i++;
 	}
-	i = 0;
-	while (i < data->number_of_philosophers)
-	{
-		pthread_join(philos[i].thread, NULL);
-		i++;
-	}
+	join_it(philos);
 }
 int	main(int ac, char **av)
 {
