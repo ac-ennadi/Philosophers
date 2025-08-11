@@ -6,11 +6,22 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/11 15:05:50 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:40:19 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	msleep(int time)
+{
+	long	start;
+
+	start = my_get_time();
+	while (my_get_time() - start < time)
+	{
+		usleep(25);
+	}
+}
 
 void	join_it(t_phios *data)
 {
@@ -72,12 +83,12 @@ void	*philo_routine(void *arg)
 		philo->last_meal = my_get_time() - philo->config->start_time;
 		philo->eat_count++;
 		pthread_mutex_unlock(&philo->config->meal_lock);
-		usleep(philo->config->time_to_eat * 1000);
+		msleep(philo->config->time_to_eat);
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 		// for sleeping
 		stdout_lock(philo->config, philo, "is sleeping");
-		usleep(philo->config->time_to_sleep * 1000);
+		msleep(philo->config->time_to_sleep);
 		// for thinking
 		stdout_lock(philo->config, philo, "is thinking");
 		usleep(25);
