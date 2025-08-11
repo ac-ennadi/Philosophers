@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/11 20:19:28 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:23:04 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void is_all(t_phios *data)
       data->config->stop = 1;
 }
 
-void join_it(t_phios *data) {
+void join_it(t_phios *data)
+{
   int i;
 
   i = 0;
@@ -52,7 +53,9 @@ void join_it(t_phios *data) {
     i++;
   }
 }
-void *died_check(void *args) {
+
+void *died_check(void *args)
+{
   int i;
   long now;
   t_phios *philo;
@@ -79,7 +82,8 @@ void *died_check(void *args) {
   return NULL;
 }
 
-void *philo_routine(void *arg) {
+void *philo_routine(void *arg)
+{
   t_phios *philo;
 
   philo = (t_phios *)arg;
@@ -106,7 +110,8 @@ void *philo_routine(void *arg) {
   return (NULL);
 }
 
-void philo_init(t_configuration *data) {
+void philo_init(t_configuration *data)
+{
   int i;
   t_phios *philos;
   pthread_t died_checker;
@@ -137,10 +142,10 @@ void philo_init(t_configuration *data) {
   }
   pthread_create(&died_checker, NULL, died_check, philos);
   join_it(philos);
-  pthread_join(died_checker, NULL);
- 
+  pthread_join(died_checker, NULL); 
 }
-int main(int ac, char **av) {
+int main(int ac, char **av)
+{
   int status;
   t_configuration data;
 
