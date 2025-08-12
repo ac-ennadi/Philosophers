@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:58 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/11 14:37:40 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/12 09:14:44 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	stdout_lock(t_configuration *data, t_phios *philo, char *str)
 
 	pthread_mutex_lock(&data->stdout);
 	time = my_get_time() - data->start_time;
+	pthread_mutex_lock(&data->stop_lock);
 	if (data->stop == 0)
 		printf("%lld %d %s\n", time, philo->id + 1, str);
+	pthread_mutex_unlock(&data->stop_lock);
 	pthread_mutex_unlock(&data->stdout);
 }
 void	t_clean(void *arg)

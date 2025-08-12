@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/11 13:30:32 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/12 10:59:45 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_configuration
 	int						stop;
 	int						number_of_times_each_philosopher_must_eat;
 	long long				start_time;
+	pthread_mutex_t			stop_lock;
 	pthread_mutex_t			stdout;
 	pthread_mutex_t			*forks;
 	pthread_mutex_t			meal_lock;
