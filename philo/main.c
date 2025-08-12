@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/11 20:23:04 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:24:08 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void *philo_routine(void *arg)
     stdout_lock(philo->config, philo, "has taken a fork");
     // for eating
     stdout_lock(philo->config, philo, "is Eating");
-    philo->last_meal = my_get_time() - philo->config->start_time;    // pthread_mutex_unlock(&philo->config->meal_lock);
+    philo->last_meal = my_get_time() - philo->config->start_time;
     philo->eat_count++;
     msleep(philo->config->time_to_eat);
     pthread_mutex_unlock(philo->right_fork);
