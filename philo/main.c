@@ -6,11 +6,12 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/12 11:25:42 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:29:48 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <unistd.h>
 
 void	msleep(long time)
 {
@@ -100,7 +101,7 @@ void	*philo_routine(void *arg)
 
 	philo = (t_phios *)arg;
 	if (philo->id % 2 == 0)
-		usleep(100);
+		usleep(250);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->config->stop_lock);
@@ -110,24 +111,13 @@ void	*philo_routine(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(&philo->config->stop_lock);
-		// start with taking a forks
-		if (philo->id % 2 == 0)
-		{
-			pthread_mutex_lock(philo->right_fork);
-			pthread_mutex_lock(philo->left_fork);
-		}
-		else
-		{
-			pthread_mutex_lock(philo->left_fork);
-			pthread_mutex_lock(philo->right_fork);
-		}
+		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_lock(philo->left_fork);
 		stdout_lock(philo->config, philo, "has taken a fork");
 		// for eating
-		stdout_lock(philo->config, philo, "is Eating");
-		pthread_mutex_lock(&philo->config->meal_lock);
-		philo->last_meal = my_get_time() - philo->config->start_time;
+		philo->last_meal = my_get_time() - philo->start_time;
 		philo->eat_count++;
-		pthread_mutex_unlock(&philo->config->meal_lock);
+		stdout_lock(philo->config, philo, "is Eating");
 		msleep(philo->config->time_to_eat);
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
@@ -146,13 +136,11 @@ void	philo_init(t_configuration *data)
 	t_phios		*philos;
 	pthread_t	died_checker;
 
-	philos = malloc(sizeof(t_phios) * data->number_of_philosophers);
-	data->forks = malloc(sizeof(pthread_mutex_t)
-			* data->number_of_philosophers);
-	data->stop = 0;
+	philos = malloc(sizeof(t_phios) * (data->number_of_philosophers));
+	data-> forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philosophers);
 	if (!data->forks || !philos)
 	{
-    t_clean(data->forks);
+		t_clean(data->forks);
 		t_clean(philos);
 	}
 	i = 0;
@@ -160,17 +148,20 @@ void	philo_init(t_configuration *data)
 	{
 		pthread_mutex_init(&data->forks[i], NULL);
 		philos[i].eat_count = 0;
+		philos[i].last_meal = 0;
 		i++;
 	}
 	pthread_mutex_init(&data->stdout, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
 	pthread_mutex_init(&data->stop_lock, NULL);
 	i = 0;
+	data->stop = 0;
 	data->start_time = my_get_time();
 	while (i < data->number_of_philosophers)
 	{
 		philos[i].id = i;
 		philos[i].config = data;
+		philos[i].start_time = philos[i].config->start_time;
 		philos[i].left_fork = &data->forks[i];
 		philos[i].right_fork = &data->forks[(i + 1)
 			% data->number_of_philosophers];
@@ -180,8 +171,17 @@ void	philo_init(t_configuration *data)
 	pthread_create(&died_checker, NULL, died_check, philos);
 	join_it(philos);
 	pthread_join(died_checker, NULL);
-  t_clean(data->forks);
-  t_clean(philos);
+	i  = 0;
+	while (i < data->number_of_philosophers)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&data->stdout);
+	pthread_mutex_destroy(&data->stop_lock);
+	pthread_mutex_destroy(&data->meal_lock);
+	t_clean(philos);
+	t_clean(data->forks);
 }
 int	main(int ac, char **av)
 {

@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:58 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/12 09:14:44 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:13:00 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	stdout_lock(t_configuration *data, t_phios *philo, char *str)
 void	t_clean(void *arg)
 {
 	if (arg)
+	{
 		free(arg);
+		return ;
+	}
 	exit(1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/12 10:59:45 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:18:59 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_philos
 	pthread_mutex_t			*right_fork;
 	long long				last_meal;
 	int						eat_count;
+	long long				start_time;
 	struct s_configuration	*config;
 }							t_phios;
 
