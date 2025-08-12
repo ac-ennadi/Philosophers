@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:22 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/07 17:48:19 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/12 11:14:17 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	philo_parcer(int ac, char **av, t_configuration *data)
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (data->number_of_philosophers >= 200)
+		return (puterror(2));
+	if (data->number_of_philosophers == 1)
 		return (puterror(2));
 	if (ac == 6)
 		data->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
