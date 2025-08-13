@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 
-SRC = main.c philo_parcer.c utiles_funs.c
+SRC = main.c philo_parcer.c utiles_funs.c philo_funs.c
 
 NAME = philo
 

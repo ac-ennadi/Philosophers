@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/13 12:03:11 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:16:07 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_configuration
 	int						number_of_times_each_philosopher_must_eat;
 	long long				start_time;
 	long					now;
+	int						i;
 	pthread_mutex_t			stop_lock;
 	pthread_mutex_t			stdout;
 	pthread_mutex_t			*forks;
@@ -58,8 +59,8 @@ void						t_clean(void *data);
 void						stdout_lock(t_configuration *data, t_phios *philo,
 								char *str);
 long long					my_get_time(void);
-void	join_it(t_phios *data, pthread_t died_checker);
-void	msleep(long time);
-void	is_all(t_phios *data);
-void	*died_check(void *args);
+void						join_it(t_phios *data, pthread_t died_checker);
+void						msleep(long time);
+void						is_all(t_phios *data);
+void						*died_check(void *args);
 #endif
