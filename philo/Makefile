@@ -5,7 +5,9 @@ SRC = main.c philo_parcer.c utiles_funs.c philo_funs.c
 
 NAME = philo
 
-all:
+all: $(NAME)
+	
+$(NAME):
 	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 
 clean:

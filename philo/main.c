@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/13 14:16:19 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:30:11 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	set_philo(t_phios *philos, t_configuration *data)
 	data->forks = malloc(sizeof(pthread_mutex_t)
 			* data->number_of_philosophers);
 	if (!data->forks || !philos)
+	{
 		t_clean(philos);
+		t_clean(data->forks);
+	}
 	i = 0;
 	while (i < data->number_of_philosophers)
 	{
@@ -39,7 +42,6 @@ void	set_philo(t_phios *philos, t_configuration *data)
 
 void	in_routine(t_phios *philo)
 {
-	pthread_mutex_unlock(&philo->config->stop_lock);
 	pthread_mutex_lock(philo->right_fork);
 	pthread_mutex_lock(philo->left_fork);
 	stdout_lock(philo->config, philo, "has taken a fork");
@@ -71,6 +73,7 @@ void	*philo_routine(void *arg)
 			pthread_mutex_unlock(&philo->config->stop_lock);
 			break ;
 		}
+		pthread_mutex_unlock(&philo->config->stop_lock);
 		in_routine(philo);
 	}
 	return (NULL);
