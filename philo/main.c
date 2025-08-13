@@ -12,7 +12,6 @@
 
 #include "philo.h"
 
-
 void	*philo_routine(void *arg)
 {
 	t_phios	*philo;

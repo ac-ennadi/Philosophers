@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 11:25:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/13 12:03:17 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:15:03 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	is_all(t_phios *data)
 	while (i < data->config->number_of_philosophers)
 	{
 		pthread_mutex_lock(&data[i].config->meal_lock);
-		if (data[i].eat_count < data->config->number_of_times_each_philosopher_must_eat)
+		if (data[i].eat_count
+			< data->config->number_of_times_each_philosopher_must_eat)
 		{
 			done = 0;
 			pthread_mutex_unlock(&data[i].config->meal_lock);
@@ -62,6 +63,7 @@ void	is_all(t_phios *data)
 		pthread_mutex_unlock(&data->config->stop_lock);
 	}
 }
+
 void	*died_check(void *args)
 {
 	int		i;
@@ -73,7 +75,8 @@ void	*died_check(void *args)
 	{
 		philo->config->now = my_get_time() - philo->config->start_time;
 		pthread_mutex_lock(&philo->config->meal_lock);
-		if (((philo->config->now - philo[i].last_meal) >= philo->config->time_to_die))
+		if (((philo->config->now
+					- philo[i].last_meal) >= philo->config->time_to_die))
 		{
 			stdout_lock(philo->config, &philo[i], "is died");
 			pthread_mutex_lock(&philo->config->stop_lock);
