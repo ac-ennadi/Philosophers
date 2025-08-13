@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/13 11:10:16 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:03:11 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,8 @@ void						t_clean(void *data);
 void						stdout_lock(t_configuration *data, t_phios *philo,
 								char *str);
 long long					my_get_time(void);
+void	join_it(t_phios *data, pthread_t died_checker);
+void	msleep(long time);
+void	is_all(t_phios *data);
+void	*died_check(void *args);
 #endif
