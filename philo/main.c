@@ -6,53 +6,16 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/13 12:21:46 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:16:19 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*philo_routine(void *arg)
+void	set_philo(t_phios *philos, t_configuration *data)
 {
-	t_phios	*philo;
+	int	i;
 
-	philo = (t_phios *)arg;
-	if (philo->id % 2 == 0)
-		usleep(250);
-	while (1)
-	{
-		pthread_mutex_lock(&philo->config->stop_lock);
-		if (philo->config->stop == 1)
-		{
-			pthread_mutex_unlock(&philo->config->stop_lock);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->config->stop_lock);
-		pthread_mutex_lock(philo->right_fork);
-		pthread_mutex_lock(philo->left_fork);
-		stdout_lock(philo->config, philo, "has taken a fork");
-		pthread_mutex_lock(&philo->config->meal_lock);
-		philo->last_meal = my_get_time() - philo->start_time;
-		philo->eat_count++;
-		pthread_mutex_unlock(&philo->config->meal_lock);
-		stdout_lock(philo->config, philo, "is Eating");
-		msleep(philo->config->time_to_eat);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		stdout_lock(philo->config, philo, "is sleeping");
-		msleep(philo->config->time_to_sleep);
-		stdout_lock(philo->config, philo, "is thinking");
-	}
-	return (NULL);
-}
-
-void	philo_init(t_configuration *data)
-{
-	int			i;
-	t_phios		*philos;
-	pthread_t	died_checker;
-
-	philos = malloc(sizeof(t_phios) * (data->number_of_philosophers));
 	data->forks = malloc(sizeof(pthread_mutex_t)
 			* data->number_of_philosophers);
 	if (!data->forks || !philos)
@@ -72,6 +35,56 @@ void	philo_init(t_configuration *data)
 	data->stop = 0;
 	data->i = 0;
 	data->start_time = my_get_time();
+}
+
+void	in_routine(t_phios *philo)
+{
+	pthread_mutex_unlock(&philo->config->stop_lock);
+	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(philo->left_fork);
+	stdout_lock(philo->config, philo, "has taken a fork");
+	pthread_mutex_lock(&philo->config->meal_lock);
+	philo->last_meal = my_get_time() - philo->start_time;
+	philo->eat_count++;
+	pthread_mutex_unlock(&philo->config->meal_lock);
+	stdout_lock(philo->config, philo, "is Eating");
+	msleep(philo->config->time_to_eat);
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
+	stdout_lock(philo->config, philo, "is sleeping");
+	msleep(philo->config->time_to_sleep);
+	stdout_lock(philo->config, philo, "is thinking");
+}
+
+void	*philo_routine(void *arg)
+{
+	t_phios	*philo;
+
+	philo = (t_phios *)arg;
+	if (philo->id % 2 == 0)
+		usleep(250);
+	while (1)
+	{
+		pthread_mutex_lock(&philo->config->stop_lock);
+		if (philo->config->stop == 1)
+		{
+			pthread_mutex_unlock(&philo->config->stop_lock);
+			break ;
+		}
+		in_routine(philo);
+	}
+	return (NULL);
+}
+
+void	philo_init(t_configuration *data)
+{
+	int			i;
+	t_phios		*philos;
+	pthread_t	died_checker;
+
+	philos = malloc(sizeof(t_phios) * (data->number_of_philosophers));
+	set_philo(philos, data);
+	i = 0;
 	while (i < data->number_of_philosophers)
 	{
 		philos[i].id = i;
@@ -88,6 +101,7 @@ void	philo_init(t_configuration *data)
 	t_clean(philos);
 	t_clean(data->forks);
 }
+
 int	main(int ac, char **av)
 {
 	int				status;
