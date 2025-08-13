@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:58 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/13 10:29:52 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:18:09 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,12 @@ void	stdout_lock(t_configuration *data, t_phios *philo, char *str)
 	pthread_mutex_unlock(&data->stop_lock);
 	pthread_mutex_unlock(&data->stdout);
 }
+
 void	t_clean(void *data)
 {
-	// int i;
-
-	// i = 0;
-		// if (data->config->forks)
-		// {
-			// while (i < data->config->number_of_philosophers)
-			// {
-				// pthread_mutex_destroy(&data->config->forks[i]);
-				// i++;
-			// }
-		// }
-		// pthread_mutex_destroy(&data->config->stdout);
-		// pthread_mutex_destroy(&data->config->stop_lock);
-		// pthread_mutex_destroy(&data->config->meal_lock);
+	if (data)
 		free(data);
-	return;
+	return ;
 }
 
 int	ft_isdigit(int c)

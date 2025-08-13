@@ -6,12 +6,11 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/13 11:03:03 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:14:58 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <unistd.h>
 
 void	msleep(long time)
 {
@@ -65,30 +64,27 @@ void	join_it(t_phios *data)
 
 void	*died_check(void *args)
 {
-	int				i;
-	long			now;
-	t_phios			*philo;
-	t_configuration	*confg;
+	int		i;
+	t_phios	*philo;
 
 	i = 0;
 	philo = (t_phios *)args;
-	confg = philo->config;
-	while (confg->stop != 1)
+	while (philo->config->stop != 1)
 	{
-		now = my_get_time() - confg->start_time;
-		pthread_mutex_lock(&confg->meal_lock);
-		if (((now - philo[i].last_meal) >= confg->time_to_die))
+		philo->config->now = my_get_time() - philo->config->start_time;
+		pthread_mutex_lock(&philo->config->meal_lock);
+		if (((philo->config->now - philo[i].last_meal) >= philo->config->time_to_die))
 		{
-			stdout_lock(confg, &philo[i], "is died");
+			stdout_lock(philo->config, &philo[i], "is died");
 			pthread_mutex_lock(&philo->config->stop_lock);
-			confg->stop = 1;
+			philo->config->stop = 1;
 			pthread_mutex_unlock(&philo->config->stop_lock);
 		}
-		pthread_mutex_unlock(&confg->meal_lock);
+		pthread_mutex_unlock(&philo->config->meal_lock);
 		if (philo->config->number_of_times_each_philosopher_must_eat != -1)
 			is_all(philo);
 		i++;
-		if (i >= confg->number_of_philosophers)
+		if (i >= philo->config->number_of_philosophers)
 			i = 0;
 		usleep(25);
 	}
@@ -114,7 +110,6 @@ void	*philo_routine(void *arg)
 		pthread_mutex_lock(philo->right_fork);
 		pthread_mutex_lock(philo->left_fork);
 		stdout_lock(philo->config, philo, "has taken a fork");
-		// for eating
 		pthread_mutex_lock(&philo->config->meal_lock);
 		philo->last_meal = my_get_time() - philo->start_time;
 		philo->eat_count++;
@@ -123,10 +118,8 @@ void	*philo_routine(void *arg)
 		msleep(philo->config->time_to_eat);
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
-		// for sleeping
 		stdout_lock(philo->config, philo, "is sleeping");
 		msleep(philo->config->time_to_sleep);
-		// for thinking
 		stdout_lock(philo->config, philo, "is thinking");
 	}
 	return (NULL);
@@ -139,7 +132,8 @@ void	philo_init(t_configuration *data)
 	pthread_t	died_checker;
 
 	philos = malloc(sizeof(t_phios) * (data->number_of_philosophers));
-	data-> forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philosophers);
+	data->forks = malloc(sizeof(pthread_mutex_t)
+			* data->number_of_philosophers);
 	if (!data->forks || !philos)
 		t_clean(philos);
 	i = 0;
@@ -171,7 +165,7 @@ void	philo_init(t_configuration *data)
 	join_it(philos);
 	pthread_join(died_checker, NULL);
 	t_clean(philos);
-	t_clean(philos->config->forks);
+	t_clean(data->forks);
 }
 int	main(int ac, char **av)
 {
