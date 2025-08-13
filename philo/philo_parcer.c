@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:22 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/12 11:14:17 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:19:57 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	puterror(int errnum)
 {
 	if (errnum == 0)
-		printf("Expect: [num_philo] [t_die] [t_eat] [t_sleep] [optional: mt_et_ct]\n");
+		printf("Expect: [nu_philo] [t_die] [t_eat] [t_sleep] [opal: mtetct]\n");
 	if (errnum == 1)
 		printf("Error: all arguments must be positive integers\n");
 	if (errnum == 2)
