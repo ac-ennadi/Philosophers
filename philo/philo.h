@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:16 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/12 17:18:59 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 10:30:01 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int							philo_parcer(int ac, char **av,
 								t_configuration *data);
 int							ft_atoi(const char *str);
 int							ft_isdigit(int c);
-void						t_clean(void *arg);
+void						t_clean(void *data);
 void						stdout_lock(t_configuration *data, t_phios *philo,
 								char *str);
 long long					my_get_time(void);

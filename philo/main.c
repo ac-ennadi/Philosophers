@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/12 17:29:48 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:03:03 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,10 @@ void	*philo_routine(void *arg)
 		pthread_mutex_lock(philo->left_fork);
 		stdout_lock(philo->config, philo, "has taken a fork");
 		// for eating
+		pthread_mutex_lock(&philo->config->meal_lock);
 		philo->last_meal = my_get_time() - philo->start_time;
 		philo->eat_count++;
+		pthread_mutex_unlock(&philo->config->meal_lock);
 		stdout_lock(philo->config, philo, "is Eating");
 		msleep(philo->config->time_to_eat);
 		pthread_mutex_unlock(philo->right_fork);
@@ -139,10 +141,7 @@ void	philo_init(t_configuration *data)
 	philos = malloc(sizeof(t_phios) * (data->number_of_philosophers));
 	data-> forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philosophers);
 	if (!data->forks || !philos)
-	{
-		t_clean(data->forks);
 		t_clean(philos);
-	}
 	i = 0;
 	while (i < data->number_of_philosophers)
 	{
@@ -171,17 +170,8 @@ void	philo_init(t_configuration *data)
 	pthread_create(&died_checker, NULL, died_check, philos);
 	join_it(philos);
 	pthread_join(died_checker, NULL);
-	i  = 0;
-	while (i < data->number_of_philosophers)
-	{
-		pthread_mutex_destroy(&data->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&data->stdout);
-	pthread_mutex_destroy(&data->stop_lock);
-	pthread_mutex_destroy(&data->meal_lock);
 	t_clean(philos);
-	t_clean(data->forks);
+	t_clean(philos->config->forks);
 }
 int	main(int ac, char **av)
 {
