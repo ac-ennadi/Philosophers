@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:19:20 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/13 14:30:11 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:48:20 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	set_philo(t_phios *philos, t_configuration *data)
 void	in_routine(t_phios *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
+	stdout_lock(philo->config, philo, "has taken a fork");
 	pthread_mutex_lock(philo->left_fork);
 	stdout_lock(philo->config, philo, "has taken a fork");
 	pthread_mutex_lock(&philo->config->meal_lock);
