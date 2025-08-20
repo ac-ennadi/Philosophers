@@ -6,7 +6,7 @@
 /*   By: acennadi <acennadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:36:22 by acennadi          #+#    #+#             */
-/*   Updated: 2025/08/14 11:26:25 by acennadi         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:06:41 by acennadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ int	puterror(int errnum, t_configuration *data)
 		printf("0 1 has taken a fork\n%d 1 is died\n", data->time_to_die);
 	return (0);
 }
+
+int	str_err(t_configuration *data)
+{
+	if (data->time_to_die <= 0 || data->time_to_eat <= 0 
+		|| data->time_to_sleep <= 0)
+		return(puterror(2, data));
+	if (data->number_of_philosophers > 200 || data->number_of_philosophers == 0
+		|| data->number_of_times_each_philosopher_must_eat == 0)
+		return (puterror(2, data));
+	if (data->number_of_philosophers == 1)
+		return (puterror(3, data));
+	return 0;
+}
+
 
 int	ft_is_all_digit(char *str)
 {
@@ -61,13 +75,13 @@ int	philo_parcer(int ac, char **av, t_configuration *data)
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
+	{
 		data->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
+		if (data->number_of_times_each_philosopher_must_eat == -1)
+			return (puterror(2, data));
+	}
 	else
 		data->number_of_times_each_philosopher_must_eat = -1;
-	if (data->number_of_philosophers > 200 || data->number_of_philosophers == 0
-		|| data->number_of_times_each_philosopher_must_eat == 0)
-		return (puterror(2, data));
-	if (data->number_of_philosophers == 1)
-		return (puterror(3, data));
+	str_err(data);
 	return (1);
 }

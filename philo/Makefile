@@ -23,3 +23,4 @@ fclean: clean
 re:	fclean all
 
 .PHONY: clean all
+.SECANDRY: $(OBJ)
