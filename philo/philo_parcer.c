@@ -27,17 +27,16 @@ int	puterror(int errnum, t_configuration *data)
 
 int	str_err(t_configuration *data)
 {
-	if (data->time_to_die <= 0 || data->time_to_eat <= 0 
+	if (data->time_to_die <= 0 || data->time_to_eat <= 0
 		|| data->time_to_sleep <= 0)
-		return(puterror(2, data));
+		return (puterror(2, data));
 	if (data->number_of_philosophers > 200 || data->number_of_philosophers == 0
 		|| data->number_of_times_each_philosopher_must_eat == 0)
 		return (puterror(2, data));
 	if (data->number_of_philosophers == 1)
 		return (puterror(3, data));
-	return 0;
+	return (0);
 }
-
 
 int	ft_is_all_digit(char *str)
 {
